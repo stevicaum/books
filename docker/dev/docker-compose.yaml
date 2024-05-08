@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+
+  books-db:
+    image: postgres:9.5.22
+    ports:
+      - 5437:5432
+    volumes:
+      - "books-db:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+volumes:
+  books-db:
