@@ -3,17 +3,14 @@ package org.books.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-import org.books.controller.dto.BookNoIsbnDto;
 import org.books.controller.dto.BookDto;
+import org.books.controller.dto.BookNoIsbnDto;
 import org.books.controller.dto.PageResult;
 import org.books.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -39,7 +36,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     public BookDto saveBook(@Valid @RequestBody final BookDto bookDto) {
-        return bookService.store(bookDto);
+        return bookService.save(bookDto);
     }
 
     @PutMapping(value = "{" + ISBN + "}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
@@ -60,7 +57,8 @@ public class BookController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER')")
-    public PageResult<BookDto> searchBook(@RequestParam(required = false) String title, @RequestParam(required = false) String author,
+    public PageResult<BookDto> searchBook(@RequestParam(required = false) String title,
+                                          @RequestParam(required = false) String author,
                                           @RequestParam(required = false) String genre,
                                           @RequestParam(value = PAGE, defaultValue = "0") final int page,
                                           @RequestParam(value = SIZE, defaultValue = "10") final int size) {

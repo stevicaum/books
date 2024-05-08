@@ -16,9 +16,6 @@ import java.util.stream.Stream;
 
 public class JwtTokenUtil implements Serializable {
 
-  public static final String ROLE_USER = "ROLE_USER";
-  public static final String ROLE_ADMIN = "ROLE_ADMIN";
-
   public static final String SIGNING_KEY = "stevicaArsicSigningKeyMustHave256ByesInSigningKey";
 
 

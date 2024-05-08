@@ -3,6 +3,7 @@ package org.books.service;
 import org.books.controller.dto.BookNoIsbnDto;
 import org.books.controller.dto.BookDto;
 import org.books.controller.dto.PageResult;
+import org.books.exception.AlreadyExistException;
 import org.books.exception.ResourceNotFoundException;
 import org.books.model.Author;
 import org.books.model.Book;
@@ -29,9 +30,12 @@ public class BookService {
         this.genreRepository = genreRepository;
     }
 
-    public BookDto store(final BookDto bookDto) {
+    public BookDto save(final BookDto bookDto) {
         final Optional<Genre> genre = getGenreAndValidate(bookDto);
         final List<Author> authors = getAuthorsAndValidate(bookDto);
+        if(bookRepository.findById(bookDto.getIsbn()).isPresent()){
+            throw new AlreadyExistException("Book",bookDto.getIsbn());
+        }
         final Book book = bookRepository.save(new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getPrice(), authors, genre.get()));
         return mapBook(book);
     }
@@ -74,20 +78,11 @@ public class BookService {
     public PageResult<BookDto> searchBook(final String title, final String author, final String genre, final int page, final int size) {
         final Page<Book> pageObject = bookRepository.findBooksBy(title, author, genre, PageRequest.of(page, size));
         return new PageResult<>(pageObject.getTotalPages(),
-                pageObject.stream().map(o -> mapBook(o)).collect(Collectors.toList()));
+                pageObject.stream().map(o -> mapBook(o)).toList());
     }
 
     private BookDto mapBook(final Book book) {
         return  new BookDto(book.getIsbn(), book.getTitle(), book.getPrice(), book.getGenre().getId(),
-                book.getAuthors().stream().map(a -> a.getId()).collect(Collectors.toList()));
+                book.getAuthors().stream().map(a -> a.getId()).toList());
     }
-//
-//    public BookView getBook( final String isbn ) {
-//        final Book book = bookRepository.findWithPreFetched( isbn );
-//        if ( book == null ) {
-//            throw new ResourceNotFoundException( ResourceNotFoundException.BOOK + isbn );
-//        }
-//        return new BookView.BookViewBuilder( book ).build();
-//    }
-
 }

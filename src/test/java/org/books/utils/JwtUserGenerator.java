@@ -13,7 +13,7 @@ import static org.books.config.security.UserProvider.USER_DETAILS;
 public class JwtUserGenerator implements Serializable {
 
   public static void main(String[] args) {
-    System.out.println(JwtAdminGenerator.generateToken(USER_DETAILS, 360000));
+    System.out.println(JwtAdminGenerator.generateToken(USER_DETAILS, 3600));
   }
 
 }

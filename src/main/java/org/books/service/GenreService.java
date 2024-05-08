@@ -18,6 +18,6 @@ public class GenreService {
     public PageResult<GenreDto> getGenres(final int page, final int size){
         final Page<Genre> pageObject = genreRepository.findAll( PageRequest.of( page, size ) );
         return new PageResult<>( pageObject.getTotalPages(), pageObject.getContent().stream().map(
-                g -> new GenreDto.GenreViewBuilder( g ).build() ).collect( Collectors.toList() ) );
+                g -> new GenreDto.GenreViewBuilder( g ).build() ).toList());
     }
 }

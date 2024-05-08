@@ -1,0 +1,11 @@
+INSERT INTO author (id,first_name,last_name) VALUES (11,'Joshua','Bloch');
+INSERT INTO author (id,first_name,last_name) VALUES (12,'Brian','Goetz');
+INSERT INTO author (id,first_name,last_name) VALUES (13,'Tim','Peierls');
+INSERT INTO genre (id,name) VALUES (22,'programming');
+INSERT INTO genre (id,name) VALUES (12,'sci');
+INSERT INTO book (isbn,title, price, genre_id) VALUES ('isbn123','title1',12.99,22);
+INSERT INTO intellectual_property (book_isbn,author_id) VALUES ('isbn123',11);
+INSERT INTO intellectual_property (book_isbn,author_id) VALUES ('isbn123',12);
+INSERT INTO book (isbn,title, price, genre_id) VALUES ('isbn4','title2',13.99,12);
+INSERT INTO intellectual_property (book_isbn,author_id) VALUES ('isbn4',11);
+INSERT INTO intellectual_property (book_isbn,author_id) VALUES ('isbn4',13);

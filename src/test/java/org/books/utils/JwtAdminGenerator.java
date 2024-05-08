@@ -19,7 +19,7 @@ import static org.books.config.utils.JwtTokenUtil.SIGNING_KEY;
 public class JwtAdminGenerator implements Serializable {
 
   public static void main(String[] args) {
-    System.out.println(JwtAdminGenerator.generateToken(ADMIN_DETAILS, 360000));
+    System.out.println(JwtAdminGenerator.generateToken(ADMIN_DETAILS, 3600));
   }
 
 

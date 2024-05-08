@@ -18,6 +18,6 @@ public class AuthorService {
     public PageResult<AuthorDto> getAuthors(final int page, final int size){
         final Page<Author> pageObject = authorRepository.findAll( PageRequest.of( page, size ) );
         return new PageResult<>( pageObject.getTotalPages(), pageObject.getContent().stream().map(
-                g -> new AuthorDto.AuthorViewBuilder( g ).build() ).collect( Collectors.toList() ) );
+                g -> new AuthorDto.AuthorViewBuilder( g ).build() ).toList() );
     }
 }

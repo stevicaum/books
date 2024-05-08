@@ -11,4 +11,37 @@
 
 
 
+# HOW TO RUN TESTS
+1. Unit tests ``mvn clean install``
+2. Integration tests ``mvn clean install -P integration``
 
+# CALL EXAMPLES
+1. PUT
+``curl -X 'PUT' \
+'http://localhost:8080/books/isbn124' \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+"title": "Book no 1",
+"price": 1.1,
+"genreId": 2,
+"authorIds": [
+2
+]
+}'``
+
+2. POST
+``curl -X 'POST' \
+   'http://localhost:8080/books' \
+   -H 'accept: application/json' \
+   -H 'Content-Type: application/json' \
+   -d '{
+   "title": "Book no 1",
+   "price": 1.1,
+   "genreId": 2,
+   "authorIds": [
+   1,
+   2
+   ],
+   "isbn": "isbn124"
+   }'``

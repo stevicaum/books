@@ -1,7 +1,9 @@
 package org.books.exception;
 
 
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.ConversionFailedException;
@@ -13,11 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.stream.StreamSupport;
 
-@Slf4j
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+  private static final Logger log = LoggerFactory.getLogger( ControllerExceptionHandler.class );
   @ExceptionHandler(ResourceNotFoundException.class)
   protected ResponseEntity<Object> handleMissingResources(final ResourceNotFoundException ex) {
     log.error("Resource not found", ex);
@@ -43,5 +46,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     log.error("Error validate", t);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(t.getMessage());
   }
-
+  @ExceptionHandler(ConstraintViolationException.class)
+  protected ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex) {
+    log.error("Error constraint", ex);
+    String message = ex.getConstraintViolations().stream()
+        .map(violation -> String.format("%s value '%s' %s", StreamSupport.stream(violation.getPropertyPath().spliterator(),
+            false).reduce((first, second) -> second).orElse(null),
+            violation.getInvalidValue(), violation.getMessage())).findFirst().get();
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+  }
 }

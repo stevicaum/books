@@ -1,8 +1,6 @@
 package org.books.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import org.books.controller.dto.GenreDto;
 import org.books.controller.dto.PageResult;
 import org.books.service.GenreService;
@@ -13,9 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = GenreController.GENRES_ENDPOINT)
